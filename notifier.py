@@ -21,7 +21,7 @@ class Scraper:
         options.add_argument('--lang=ja-JP')
         driver = webdriver.Chrome(options=options)
 
-        driver.get('https://service.cloud.teu.ac.jp/inside2/hachiouji/computer_science/')
+        driver.get(SITE_URL)
 
         mail_address_element = driver.find_element_by_xpath("//input[@type='email']")
         mail_address_element.send_keys(self.USER_MAIL_ADDRESS)
