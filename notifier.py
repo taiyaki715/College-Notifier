@@ -22,6 +22,7 @@ class Scraper:
         driver = webdriver.Chrome(options=options)
 
         driver.get(SITE_URL)
+        print("access OK")
 
         mail_address_element = driver.find_element_by_xpath("//input[@type='email']")
         mail_address_element.send_keys(self.USER_MAIL_ADDRESS)
