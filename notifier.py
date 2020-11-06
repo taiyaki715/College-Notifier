@@ -31,6 +31,7 @@ class Scraper:
         time.sleep(3)
         print("address OK")
 
+        print(driver.current_url)
         password_element = driver.find_element_by_xpath("//input[@type='password']")
         password_element.send_keys(self.USER_PASSWORD)
         password_element.send_keys(Keys.ENTER)
