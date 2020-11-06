@@ -24,20 +24,23 @@ class Scraper:
         driver.get(SITE_URL)
         print("access OK")
 
-        mail_address_element = driver.find_element_by_xpath("//input[@type='email']")
-        mail_address_element.send_keys(self.USER_MAIL_ADDRESS)
-        mail_address_element.send_keys(Keys.ENTER)
-        time.sleep(3)
+        #mail_address_element = driver.find_element_by_xpath("//input[@type='email']")
+        #mail_address_element.send_keys(self.USER_MAIL_ADDRESS)
+        #mail_address_element.send_keys(Keys.ENTER)
+        #time.sleep(3)
+        #print("address OK")
 
-        password_element = driver.find_element_by_xpath("//input[@type='password']")
-        password_element.send_keys(self.USER_PASSWORD)
-        password_element.send_keys(Keys.ENTER)
-        time.sleep(3)
+        #password_element = driver.find_element_by_xpath("//input[@type='password']")
+        #password_element.send_keys(self.USER_PASSWORD)
+        ##password_element.send_keys(Keys.ENTER)
+        #time.sleep(3)
+        #print("password OK")
 
         source = driver.page_source.encode('utf-8')
         soup = BeautifulSoup(source, 'html.parser')
 
         news_list = [news_with_tag.text for news_with_tag in soup.select('ul.front_news_list > li > a > p')]
+        print("scrape COMPLETE")
         return news_list[:n_news]
 
 
