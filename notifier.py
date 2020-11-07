@@ -42,7 +42,7 @@ class Scraper:
 
         driver.save_screenshot('/tmp/ss.png')
         notifier = Notifier('ow1snOdCNyTHIUsfOLxwp3w9anjqEkm2UJJLjEm3rO0')
-        notifier.send(image='/tmp/ss.png')
+        notifier.send(message='test', image='/tmp/ss.png')
         time.sleep(120)
 
         # ページソース取得
