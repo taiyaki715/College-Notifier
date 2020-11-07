@@ -16,32 +16,40 @@ class Scraper:
 
         SITE_URL = 'https://service.cloud.teu.ac.jp/inside2/hachiouji/computer_science/'
 
+        # chrome-driverを設定
         options = Options()
         options.add_argument('--headless')
         options.add_argument('--lang=ja-JP')
         driver = webdriver.Chrome(options=options)
 
+        # ポータルサイトアクセス
         driver.get(SITE_URL)
         print("access OK")
 
-        print(driver.current_url)
+        # メールアドレス入力
         mail_address_element = driver.find_element_by_xpath("//input[@type='email']")
         mail_address_element.send_keys(self.USER_MAIL_ADDRESS)
         mail_address_element.send_keys(Keys.ENTER)
         time.sleep(3)
         print("address OK")
 
-        print(driver.current_url)
+        # パスワード入力
         password_element = driver.find_element_by_xpath("//input[@type='password']")
         password_element.send_keys(self.USER_PASSWORD)
         password_element.send_keys(Keys.ENTER)
         time.sleep(3)
         print("password OK")
 
-        print(driver.current_url)
+        driver.save_screenshot('/tmp/ss.png')
+        notifier = Notifier('ow1snOdCNyTHIUsfOLxwp3w9anjqEkm2UJJLjEm3rO0')
+        notifier.send(image='/tmp/ss.png')
+        time.sleep(120)
+
+        # ページソース取得
         source = driver.page_source.encode('utf-8')
         soup = BeautifulSoup(source, 'html.parser')
 
+        # 新着ニュース取得
         news_list = [news_with_tag.text for news_with_tag in soup.select('ul.front_news_list > li > a > p')]
         print("scrape COMPLETE")
         return news_list[:n_news]
@@ -54,7 +62,13 @@ class Notifier:
 
         self.header = {'Authorization': 'Bearer ' + self.TOKEN}
 
-    def send(self, message):
+    def send(self, message='', image=None):
+        payload = {}
+        files = {}
+
         if message:
-            payload = {'message': message}
-            requests.post(self.URL, headers=self.header, params=payload)
+            payload.setdefault('message', message)
+        if image:
+            files.setdefault('imageFile', open(image, 'rb'))
+
+        requests.post(self.URL, headers=self.header, params=payload, files=files)
