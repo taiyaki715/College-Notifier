@@ -40,10 +40,11 @@ class Scraper:
         time.sleep(3)
         print("password OK")
 
-        driver.save_screenshot('/tmp/ss.png')
-        notifier = Notifier('ow1snOdCNyTHIUsfOLxwp3w9anjqEkm2UJJLjEm3rO0')
-        notifier.send(message='test', image='/tmp/ss.png')
-        time.sleep(120)
+        if 'google' in driver.current_url():
+            driver.save_screenshot('/tmp/ss.png')
+            notifier = Notifier('ow1snOdCNyTHIUsfOLxwp3w9anjqEkm2UJJLjEm3rO0')
+            notifier.send(message='30秒以内にGoogle認証を行ってください', image='/tmp/ss.png')
+            time.sleep(30)
 
         # ページソース取得
         source = driver.page_source.encode('utf-8')
